@@ -7,8 +7,8 @@
   ],
   "scripts": {
     "build": "npm run clean && tsc",
-    "start": "node ./node_modules/.bin/serverless offline --noTimeout",
-    "socket": "node .build/src/socket/main.js",
+    "start": "node ./node_modules/.bin/serverless offline --noTimeout --host 0.0.0.0",
+    "socket": "node .build/src/websocket/main.js",
     "debug": "run-script build && NODE_ENV=dev DEBUG=* node --inspect ./node_modules/.bin/serverless offline --noTimeout",
     "clean": "rimraf .build",
     "lint": "eslint ./app/**/*.ts ./test/**/*.ts",
@@ -19,6 +19,7 @@
     "tsc": "tsc"
   },
   "dependencies": {
+    "redis": "^2.8.0",
     "ws": "^7.2.1"
   },
   "devDependencies": {

@@ -2,16 +2,27 @@ version: '3'
 
 services:
   redis:
+    container_name: redis
     image: redis:alpine
     ports:
        - "6379:6379"
     command: >
        sh -c "/usr/local/bin/redis-server"
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    environment:
+        - REDIS_HOSTS=redis
+    ports:
+        - 8081:8081
   sim:
+    container_name: sim
     image: toroinvestimentos/quotesmock
     ports:
       - "8080:8080"
   sim-listener:
+    container_name: sim-listener
     image: node:10-alpine
     working_dir: /usr/src/back
     volumes:
@@ -20,8 +31,9 @@ services:
       - redis
       - sim
     command: >
-      sh -c "npm install && npm run-script build && node .build/src/websocket/main.js"
+      sh -c "npm install && npm run-script build && npm run-script socket"
   back:
+    container_name: backend
     image: node:10-alpine
     working_dir: /usr/src/back
     volumes:
@@ -33,6 +45,7 @@ services:
     ports:
       - "3000:3000"
   front:
+    container_name: frontend
     image: node:10-alpine
     working_dir: /usr/src/front
     volumes:
