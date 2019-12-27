@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:alpine
+    ports:
+       - "6379:6379"
+    command: >
+       sh -c "/usr/local/bin/redis-server"
+  sim:
+    image: toroinvestimentos/quotesmock
+    ports:
+      - "8080:8080"
+  sim-listener:
+    image: node:10-alpine
+    working_dir: /usr/src/back
+    volumes:
+      - ./back:/usr/src/back
+    depends_on:
+      - redis
+      - sim
+    command: >
+      sh -c "npm install && npm run-script build && node .build/src/websocket/main.js"
+  back:
+    image: node:10-alpine
+    working_dir: /usr/src/back
+    volumes:
+      - ./back:/usr/src/back
+    command: >
+      sh -c "npm install && npm run-script start"
+    depends_on:
+      - redis
+    ports:
+      - "3000:3000"
+  front:
+    image: node:10-alpine
+    working_dir: /usr/src/front
+    volumes:
+      - ./front:/usr/src/front
+    command: >
+      sh -c "npm install && npm run-script start"
+    ports:
+      - "4200:4200"
+networks:
+  default:

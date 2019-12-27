@@ -1,0 +1,15 @@
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+service: stocklistener-front
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs8.10
+  stage: samuel
+
+functions:
+  run:
+    handler: src/lambda/main.run
