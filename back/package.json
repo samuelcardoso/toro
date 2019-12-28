@@ -7,9 +7,9 @@
   ],
   "scripts": {
     "build": "npm run clean && tsc",
-    "start": "node ./node_modules/.bin/serverless offline --noTimeout --host 0.0.0.0",
+    "start": "node ./node_modules/.bin/serverless offline --noTimeout --host 0.0.0.0 -s dev",
     "socket": "node .build/src/websocket/main.js",
-    "debug": "run-script build && NODE_ENV=dev DEBUG=* node --inspect ./node_modules/.bin/serverless offline --noTimeout",
+    "debug": "run-script build && NODE_ENV=dev DEBUG=* node --inspect ./node_modules/.bin/serverless offline --noTimeout -s dev",
     "clean": "rimraf .build",
     "lint": "eslint ./app/**/*.ts ./test/**/*.ts",
     "format": "tsfmt -r",
@@ -19,10 +19,17 @@
     "tsc": "tsc"
   },
   "dependencies": {
+    "class-transformer": "^0.2.0",
+    "class-transformer-validator": "^0.7.1",
+    "class-validator": "^0.9.1",
+    "moment": "^2.24.0",
+    "mysql": "^2.17.1",
     "redis": "^2.8.0",
+    "typeorm": "^0.2.18",
     "ws": "^7.2.1"
   },
   "devDependencies": {
+    "@types/mocha": "^5.2.7",
     "@types/node": "^11.10.4",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",

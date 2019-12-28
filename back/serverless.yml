@@ -2,14 +2,33 @@ plugins:
   - serverless-plugin-typescript
   - serverless-offline
 
-service: stocklistener-front
+service: toro-backend
 
+custom:
+  stage: ${opt:stage, 'dev'}
+  
 provider:
   name: aws
   region: us-east-1
   runtime: nodejs10.x
-  stage: samuel
+  stage: ${self:custom.stage}
+  environment:
+    TOKEN_SECRET: ${file(./serverless.env.yml):${self:custom.stage}.TOKEN_SECRET}
+    DATABASE_CONNECTION: ${file(./serverless.env.yml):${self:custom.stage}.DATABASE_CONNECTION}
+    DROP_SCHEMA: ${file(./serverless.env.yml):${self:custom.stage}.DROP_SCHEMA}
 
 functions:
-  run:
-    handler: src/lambda/main.run
+  findByFilter:
+    handler: src/lambda/account.findByFilter
+    events:
+      - http:
+          path: /accounts/
+          method: GET
+          cors: true
+  create:
+    handler: src/lambda/account.create
+    events:
+      - http:
+          path: /accounts/
+          method: POST
+          cors: true

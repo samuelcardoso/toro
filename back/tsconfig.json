@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "preserveConstEnums": true,
     "lib": ["es6", "dom"],
     "strictNullChecks": true,

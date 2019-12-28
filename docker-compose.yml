@@ -1,28 +1,55 @@
 version: '3'
 
 services:
+  mysql:
+    container_name: toro-mysql
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=torodb
+      - MYSQL_USER=toro
+      - MYSQL_PASSWORD=secret
+    ports:
+      - "8086:3306"
+    networks:
+      - toro
+  adminer:
+    container_name: toro-adminer
+    image: adminer
+    ports:
+      - 8085:8080
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+    networks:
+      - toro
   redis:
-    container_name: redis
+    container_name: toro-redis
     image: redis:alpine
     ports:
-       - "6379:6379"
+      - "8084:6379"
     command: >
-       sh -c "/usr/local/bin/redis-server"
+      sh -c "/usr/local/bin/redis-server"
+    networks:
+      - toro
   redis-commander:
-    container_name: redis-commander
+    container_name: toro-redis-commander
     hostname: redis-commander
     image: rediscommander/redis-commander:latest
     environment:
-        - REDIS_HOSTS=redis
+      - REDIS_HOSTS=redis
     ports:
-        - 8081:8081
+      - 8083:8081
+    networks:
+      - toro
   sim:
-    container_name: sim
+    container_name: toro-sim
     image: toroinvestimentos/quotesmock
     ports:
       - "8080:8080"
+    networks:
+      - toro
   sim-listener:
-    container_name: sim-listener
+    container_name: toro-sim-listener
     image: node:10-alpine
     working_dir: /usr/src/back
     volumes:
@@ -32,8 +59,10 @@ services:
       - sim
     command: >
       sh -c "npm install && npm run-script build && npm run-script socket"
+    networks:
+      - toro
   back:
-    container_name: backend
+    container_name: toro-backend
     image: node:10-alpine
     working_dir: /usr/src/back
     volumes:
@@ -43,9 +72,11 @@ services:
     depends_on:
       - redis
     ports:
-      - "3000:3000"
+      - "8082:3000"
+    networks:
+      - toro
   front:
-    container_name: frontend
+    container_name: toro-frontend
     image: node:10-alpine
     working_dir: /usr/src/front
     volumes:
@@ -53,6 +84,9 @@ services:
     command: >
       sh -c "npm install && npm run-script start"
     ports:
-      - "4200:4200"
-networks:
-  default:
+      - "8081:4200"
+    networks:
+      - toro
+networks: 
+  toro:
+    driver: bridge
