@@ -17,7 +17,10 @@ export default class BusinessException extends Error {
   };
 
   public static ACCOUNT = {
-    AAA: 'AAA'
+    AAA: 'AAA',
+    BBB: 'BBB',
+    CCC: 'CCC',
+    DDD: 'DDD'
   };
 
   public toJson() {

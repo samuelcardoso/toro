@@ -5,11 +5,11 @@ import Constants from '../framework/contants.frw';
 
 export default class UserService {
   public static async all(conn: Connection): Promise<Array<User> | unknown> {
-    return conn.getRepository('User').find();
+    return conn.getRepository('User').find({ loadRelationIds: true });
   }
 
   public static async get(conn: Connection, id: string): Promise<User | unknown> {
-    return conn.getRepository('User').findOne(id);
+    return conn.getRepository('User').findOne(id, { loadRelationIds: true });
   }
 
   public static async create(conn: Connection, user: User): Promise<User | unknown> {
