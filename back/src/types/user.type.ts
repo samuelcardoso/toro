@@ -13,6 +13,6 @@ export class User extends BasicRelationalType {
 
   @IsNotEmpty()
   @JoinColumn()
-  @OneToOne(type => Account, { cascade: true, nullable: false })
+  @OneToOne(() => Account, { cascade: true, nullable: false })
   account: Account;
 }

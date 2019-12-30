@@ -11,7 +11,7 @@ export class Account extends BasicRelationalType {
   @Column({ nullable: false, default: 0 })
   balance: number;
 
-  @ManyToMany(type => Stock)
+  @ManyToMany(() => Stock, { nullable: true })
   @JoinTable()
-  stocks: Stock[];
+  stocks?: Stock[];
 }

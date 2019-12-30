@@ -1,10 +1,16 @@
 import { Database } from '../framework/database.frw';
 import { getConnectionManager } from 'typeorm';
 import AccountService from '../service/account.service';
+import AccessUtils from '../framework/access.frw';
 
 const connectionManager = getConnectionManager();
 
-export async function create(event, context) {
+const redis = require("redis"), redisClient = redis.createClient({host: 'redis'});
+redisClient.on("error", (err) => {
+    console.error(err);
+});
+
+export async function get(event, context) {
   context.callbackWaitsForEmptyEventLoop = false;
     try {
       const p = await Promise.all([
@@ -12,18 +18,17 @@ export async function create(event, context) {
       ]);
       return {
         statusCode: 200,
-        body: JSON.stringify(await AccountService.create(p[0], JSON.parse(event.body)))
+        body: JSON.stringify(
+          await AccountService.get(p[0],
+          event.pathParameters.id)
+        )
       };
     } catch (err) {
-      console.error(err);
-      return {
-        statusCode: 500,
-        body: JSON.stringify(err)
-      };
+      return AccessUtils.getResponse(err);
     }
 }
 
-export async function findByFilter(event, context) {
+export async function updateBalance(event, context) {
   context.callbackWaitsForEmptyEventLoop = false;
     try {
       const p = await Promise.all([
@@ -31,15 +36,53 @@ export async function findByFilter(event, context) {
       ]);
       return {
         statusCode: 200,
-        body: JSON.stringify(await AccountService.findByFilter(p[0], event.queryStringParameters))
+        body: JSON.stringify(
+          await AccountService.updateBalance(p[0],
+          event.pathParameters.id,
+          JSON.parse(event.body).amount))
       };
     } catch (err) {
-      console.error(err);
-      return {
-        statusCode: 500,
-        body: JSON.stringify(err)
-      };
+      return AccessUtils.getResponse(err);
     }
 }
 
+export async function buyStock(event, context) {
+  context.callbackWaitsForEmptyEventLoop = false;
+    try {
+      const p = await Promise.all([
+        Database.getConnection(connectionManager)
+      ]);
+      return {
+        statusCode: 200,
+        body: JSON.stringify(
+          await AccountService.buyStock(
+          redisClient,
+          p[0],
+          event.pathParameters.id,
+          JSON.parse(event.body).stock))
+      };
+    } catch (err) {
+      return AccessUtils.getResponse(err);
+    }
+}
+
+export async function sellStock(event, context) {
+  context.callbackWaitsForEmptyEventLoop = false;
+    try {
+      const p = await Promise.all([
+        Database.getConnection(connectionManager)
+      ]);
+      return {
+        statusCode: 200,
+        body: JSON.stringify(
+          await AccountService.sellStock(
+          redisClient,
+          p[0],
+          event.pathParameters.id,
+          JSON.parse(event.body).stock))
+      };
+    } catch (err) {
+      return AccessUtils.getResponse(err);
+    }
+}
 

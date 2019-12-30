@@ -1,7 +1,7 @@
 const WebSocketClient = require('ws');
 const ws = new WebSocketClient('ws://sim:8080/quotes');
-const redis = require("redis"),
-    redisClient = redis.createClient({host: 'redis'});
+
+const redis = require("redis"), redisClient = redis.createClient({host: 'redis'});
 
 redisClient.on("error", (err) => {
     console.error(err);

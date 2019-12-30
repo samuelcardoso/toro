@@ -18,17 +18,54 @@ provider:
     DROP_SCHEMA: ${file(./serverless.env.yml):${self:custom.stage}.DROP_SCHEMA}
 
 functions:
-  findByFilter:
-    handler: src/lambda/account.findByFilter
+  # Users
+  userAll:
+    handler: src/lambda/user.all
     events:
       - http:
-          path: /accounts/
+          path: /users/all
           method: GET
           cors: true
-  create:
-    handler: src/lambda/account.create
+  userGet:
+    handler: src/lambda/user.get
     events:
       - http:
-          path: /accounts/
+          path: /users/{id}
+          method: GET
+          cors: true
+  userCreate:
+    handler: src/lambda/user.create
+    events:
+      - http:
+          path: /users
           method: POST
+          cors: true
+  # Accounts
+  accountGet:
+    handler: src/lambda/account.get
+    events:
+      - http:
+          path: /accounts/{id}
+          method: GET
+          cors: true
+  accountUpdateBalance:
+    handler: src/lambda/account.updateBalance
+    events:
+      - http:
+          path: /accounts/{id}
+          method: PUT
+          cors: true
+  accountBuyStock:
+    handler: src/lambda/account.buyStock
+    events:
+      - http:
+          path: /accounts/{id}/buystock
+          method: PUT
+          cors: true
+  accountSellStock:
+    handler: src/lambda/account.sellStock
+    events:
+      - http:
+          path: /accounts/{id}/sellstock
+          method: PUT
           cors: true
