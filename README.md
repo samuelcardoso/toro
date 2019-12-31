@@ -1,6 +1,9 @@
 ### Para iniciar
 docker-compose up -d
 
+### Para rodar os testes de API
+cd back && npm run test
+
 ### Links
 
 # Redis Commander

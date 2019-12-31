@@ -41,6 +41,13 @@ functions:
           method: POST
           cors: true
   # Accounts
+  accountAll:
+    handler: src/lambda/account.all
+    events:
+      - http:
+          path: /accounts/all
+          method: GET
+          cors: true
   accountGet:
     handler: src/lambda/account.get
     events:

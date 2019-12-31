@@ -13,7 +13,9 @@ export async function all(event, context) {
       ]);
       return {
         statusCode: 200,
-        body: JSON.stringify(await UserService.all(p[0]))
+        body: JSON.stringify(
+          await UserService.all(p[0])
+        )
       };
     } catch (err) {
       return AccessUtils.getResponse(err);

@@ -5,24 +5,36 @@ import { Connection } from 'typeorm';
 import BusinessException from '../framework/business.exception';
 
 export default class AccountService {
+  public static async all(conn: Connection): Promise<Array<Account> | unknown> {
+    const accounts = await conn.getRepository('Account').find({ loadRelationIds: true });
+    if(!accounts) {
+      throw new BusinessException(BusinessException.ACCOUNT.NOT_FOUND);
+    }
+    return accounts;
+  }
+
   public static async get(conn: Connection, id: string): Promise<Account | unknown> {
-    return conn.getRepository('Account').findOne(id);
+    const account = await conn.getRepository('Account').findOne(id);
+    if(!account) {
+      throw new BusinessException(BusinessException.ACCOUNT.NOT_FOUND);
+    }
+    return account;
   }
 
   public static async updateBalance(conn: Connection, id: string, amount: number): Promise<void> {
     const account = <Account | undefined> await conn.getRepository('Account').findOne(id);
     if(!account) {
-      return;
+      throw new BusinessException(BusinessException.ACCOUNT.NOT_FOUND);
     }
     account.balance += amount;
     await transformAndValidate(Account, account, Constants.VALIDATOR_OPTIONS);
-    await conn.getRepository('Account').update(id, account);
+    await conn.getRepository('Account').save(account);
   }
 
   public static async buyStock(redisClient, conn: Connection, id: string, stockName: string): Promise<void> {
     const account = <Account | undefined> await conn.getRepository('Account').findOne(id, { loadEagerRelations: true });
     if(!account) {
-      throw new BusinessException(BusinessException.ACCOUNT.AAA);
+      throw new BusinessException(BusinessException.ACCOUNT.NOT_FOUND);
     }
 
     return new Promise((resolve, reject) => {
@@ -37,7 +49,7 @@ export default class AccountService {
         }
 
         if(!reply) {
-          throw new BusinessException(BusinessException.ACCOUNT.BBB);
+          throw new BusinessException(BusinessException.STOCK.NOT_FOUND);
         }
 
         if(account.stocks.filter((obj) => obj.name === stockName).length === 0) {
@@ -56,7 +68,7 @@ export default class AccountService {
             return reject(err);
           }
         } else {
-          return reject(new BusinessException(BusinessException.ACCOUNT.AAA))
+          return reject(new BusinessException(BusinessException.STOCK.NOT_FOUND))
         }
       });
     });
@@ -66,11 +78,11 @@ export default class AccountService {
     const account = <Account | undefined> await conn.getRepository('Account').findOne(id, { loadEagerRelations: true });
     
     if(!account) {
-      throw new BusinessException(BusinessException.ACCOUNT.AAA);
+      throw new BusinessException(BusinessException.ACCOUNT.NOT_FOUND);
     }
 
     if(!account.stocks) {
-      throw new BusinessException(BusinessException.ACCOUNT.BBB);
+      throw new BusinessException(BusinessException.STOCK.NOT_FOUND);
     }
 
     return new Promise((resolve, reject) => {
@@ -81,7 +93,7 @@ export default class AccountService {
         }
 
         if(!reply) {
-          throw new BusinessException(BusinessException.ACCOUNT.BBB);
+          throw new BusinessException(BusinessException.STOCK.NOT_FOUND);
         }
 
         if(account.stocks) {

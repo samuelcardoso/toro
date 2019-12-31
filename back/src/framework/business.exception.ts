@@ -13,14 +13,15 @@ export default class BusinessException extends Error {
   }
 
   public static USER = {
-    USER_NOT_FOUND: 'USER_NOT_FOUND'
+    NOT_FOUND: 'USER_NOT_FOUND',
   };
 
   public static ACCOUNT = {
-    AAA: 'AAA',
-    BBB: 'BBB',
-    CCC: 'CCC',
-    DDD: 'DDD'
+    NOT_FOUND: 'ACCOUNT_NOT_FOUND'
+  };
+
+  public static STOCK = {
+    NOT_FOUND: 'STOCK_NOT_FOUND'
   };
 
   public toJson() {

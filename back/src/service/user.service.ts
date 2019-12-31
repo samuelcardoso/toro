@@ -2,14 +2,23 @@ import { transformAndValidate } from 'class-transformer-validator';
 import { Connection } from 'typeorm';
 import { User } from '../types/user.type';
 import Constants from '../framework/contants.frw';
+import BusinessException from '../framework/business.exception';
 
 export default class UserService {
   public static async all(conn: Connection): Promise<Array<User> | unknown> {
-    return conn.getRepository('User').find({ loadRelationIds: true });
+    const users = await conn.getRepository('User').find({ loadRelationIds: true });
+    if(!users) {
+      throw new BusinessException(BusinessException.USER.NOT_FOUND);
+    }
+    return users;
   }
 
   public static async get(conn: Connection, id: string): Promise<User | unknown> {
-    return conn.getRepository('User').findOne(id, { loadRelationIds: true });
+    const user = await conn.getRepository('User').findOne(id, { loadRelationIds: true });
+    if(!user) {
+      throw new BusinessException(BusinessException.USER.NOT_FOUND);
+    }
+    return user;
   }
 
   public static async create(conn: Connection, user: User): Promise<User | unknown> {
