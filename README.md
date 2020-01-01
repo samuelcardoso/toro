@@ -6,6 +6,12 @@ cd back && npm run test
 
 ### Links
 
+# Frontend
+http://localhost:8081
+
+# Backend
+http://localhost:8082
+
 # Redis Commander
 http://localhost:8083/
 

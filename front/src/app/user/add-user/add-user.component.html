@@ -1,0 +1,16 @@
+<div class="col-md-6 user-container">
+  <h2 class="text-center">Add User</h2>
+  <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="username">User Name:</label>
+      <input type="text" formControlName="username" placeholder="username" name="username" class="form-control" id="username">
+    </div>
+
+    <div class="form-group">
+      <label for="balance">Initial Balance:</label>
+      <input type="number" formControlName="balance" placeholder="balance" name="balance" class="form-control" id="balance">
+    </div>
+
+    <button class="btn btn-success">Add</button>
+  </form>
+</div>
