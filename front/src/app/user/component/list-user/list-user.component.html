@@ -1,0 +1,21 @@
+<div class="col-md-6 user-container">
+  <h2 style="margin: auto"> Users and Accounts</h2>
+  <button class="btn btn-danger" style="width:100px" (click)="addUser()"> Add User</button>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Current balance</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{user.name}}</td>
+      <td>{{user.account.balance}}</td>
+      <td>
+        <button class="btn btn-success" (click)="manageAccount(user)">Manage account</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

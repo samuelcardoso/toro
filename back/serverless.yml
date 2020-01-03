@@ -41,6 +41,14 @@ functions:
           method: POST
           cors: true
   # Accounts
+  stockAll:
+    handler: src/lambda/stock.all
+    events:
+      - http:
+          path: /stocks/all
+          method: GET
+          cors: true
+  # Accounts
   accountAll:
     handler: src/lambda/account.all
     events:

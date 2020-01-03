@@ -6,7 +6,7 @@ import BusinessException from '../framework/business.exception';
 
 export default class UserService {
   public static async all(conn: Connection): Promise<Array<User> | unknown> {
-    const users = await conn.getRepository('User').find({ loadRelationIds: true });
+    const users = await conn.getRepository('User').find({ relations: ['account'] });
     if(!users) {
       throw new BusinessException(BusinessException.USER.NOT_FOUND);
     }
@@ -14,7 +14,7 @@ export default class UserService {
   }
 
   public static async get(conn: Connection, id: string): Promise<User | unknown> {
-    const user = await conn.getRepository('User').findOne(id, { loadRelationIds: true });
+    const user = await conn.getRepository('User').findOne(id, { relations: ['account'] });
     if(!user) {
       throw new BusinessException(BusinessException.USER.NOT_FOUND);
     }
