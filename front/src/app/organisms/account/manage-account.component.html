@@ -1,0 +1,31 @@
+<div class="col-md-6 user-container">
+  <h2 class="text-center">Manage Account</h2>
+
+  <label for="balance">Current balance:</label>
+  <input type="text" value="{{account ? account.balance : null}}" disabled id="balance">
+
+  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="amount">Add/Remove amount:</label>
+      <input type="number" formControlName="amount" placeholder="ex: -10" name="amount" class="form-control" id="amount">
+    </div>
+    <button class="btn btn-success">OK</button>
+  </form>
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Stock</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let stock of stocks">
+      <td>{{stock}}</td>
+      <td>
+        <button class="btn btn-success" (click)="buy(stock)" *ngIf="!isStockBought(stock)">Buy</button>
+        <button class="btn btn-success" (click)="sell(stock)" *ngIf="isStockBought(stock)">Sell</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

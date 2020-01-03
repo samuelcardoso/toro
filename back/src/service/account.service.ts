@@ -31,7 +31,7 @@ export default class AccountService {
     await conn.getRepository('Account').save(account);
   }
 
-  public static async buyStock(redisClient, conn: Connection, id: string, stockName: string): Promise<void> {
+  public static async buyStock(redisClient, conn: Connection, id: string, stockName: string): Promise<number> {
     const account = <Account | undefined> await conn.getRepository('Account').findOne(id, { loadEagerRelations: true });
     if(!account) {
       throw new BusinessException(BusinessException.ACCOUNT.NOT_FOUND);
@@ -62,7 +62,7 @@ export default class AccountService {
             account.balance -= stockValue;
             await transformAndValidate(Account, account, Constants.VALIDATOR_OPTIONS);
             await conn.getRepository('Account').save(account);
-            return resolve();
+            return resolve(account.balance);
           } catch(err) {
             console.error(err);
             return reject(err);
@@ -74,7 +74,7 @@ export default class AccountService {
     });
   }
 
-  public static async sellStock(redisClient, conn: Connection, id: string, stockName: string): Promise<void> {
+  public static async sellStock(redisClient, conn: Connection, id: string, stockName: string): Promise<number> {
     const account = <Account | undefined> await conn.getRepository('Account').findOne(id, { loadEagerRelations: true });
     
     if(!account) {
@@ -105,7 +105,7 @@ export default class AccountService {
             account.balance += stockValue;
             await transformAndValidate(Account, account, Constants.VALIDATOR_OPTIONS);
             await conn.getRepository('Account').save(account);
-            return resolve();
+            return resolve(account.balance);
           } catch(err) {
             console.error(err);
             return reject(err);

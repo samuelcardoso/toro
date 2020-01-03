@@ -1,8 +1,8 @@
-import { ManageAccountComponent } from './account/component/manage-account/manage-account.component';
+import { ManageAccountComponent } from './organisms/account/manage-account.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddUserComponent } from "./user/component/add-user/add-user.component";
-import { ListUserComponent } from "./user/component/list-user/list-user.component";
+import { AddUserComponent } from "./organisms/user/add-user/add-user.component";
+import { ListUserComponent } from "./organisms/user/list-user/list-user.component";
 
 const routes: Routes = [
   { path: 'add-user', component: AddUserComponent },

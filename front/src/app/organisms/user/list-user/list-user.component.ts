@@ -1,7 +1,7 @@
 import { Component, OnInit , Inject} from '@angular/core';
 import {Router} from "@angular/router";
 import {User} from "../../../models/user.model";
-import {UserApiService} from "../../service/api.service";
+import {UserApiService} from "../../../services/user-api.service";
 
 @Component({
   selector: 'app-list-user',
@@ -12,7 +12,7 @@ export class ListUserComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private apiService: UserApiService) { }
+    private userApiService: UserApiService) { }
 
   users: User[];
 
@@ -21,7 +21,7 @@ export class ListUserComponent implements OnInit {
     //   this.router.navigate(['login']);
     //   return;
     // }
-    this.apiService.getUsers()
+    this.userApiService.all()
       .subscribe( data => {
         console.log(data);
         this.users = data;
