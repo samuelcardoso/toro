@@ -1,31 +1,34 @@
 <div class="col-md-6 user-container">
-  <h2 class="text-center">Manage Account</h2>
-
-  <label for="balance">Current balance:</label>
-  <input type="text" value="{{account ? account.balance : null}}" disabled id="balance">
+  <h2 style="margin: auto">Manage Account</h2>
 
   <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="amount">Add/Remove amount:</label>
-      <input type="number" formControlName="amount" placeholder="ex: -10" name="amount" class="form-control" id="amount">
-    </div>
-    <button class="btn btn-success">OK</button>
+    <label for="balance">Current balance:</label>
+    <input matInput type="text" value="{{account ? account.balance : null}}" disabled id="balance">
+    <br/>
+    <label for="amount">Add/Remove amount:</label>
+    <input matInput type="number" formControlName="amount" placeholder="ex: -10" name="amount" class="form-control" id="amount">
+    <button mat-button>Update amount</button>
   </form>
 
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th>Stock</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let stock of stocks">
-      <td>{{stock}}</td>
-      <td>
-        <button class="btn btn-success" (click)="buy(stock)" *ngIf="!isStockBought(stock)">Buy</button>
-        <button class="btn btn-success" (click)="sell(stock)" *ngIf="isStockBought(stock)">Sell</button>
+  <table mat-table [dataSource]="stocks" style="width: 100%">
+    <ng-container matColumnDef="stock">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let stock"> {{stock}} </td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td md-cell *cdkCellDef="let stock">
+        <button mat-button (click)="buy(stock)" *ngIf="!isStockBought(stock)">Buy</button>
+        <button mat-button (click)="sell(stock)" *ngIf="isStockBought(stock)">Sell</button>
       </td>
-    </tr>
-    </tbody>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <mat-paginator [length]="100"
+              [pageSize]="5"
+              [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
   </table>
 </div>

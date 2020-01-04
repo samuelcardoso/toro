@@ -1,0 +1,245 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: Toro
+  contact: {}
+basePath: /
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /users/all:
+    get:
+      summary: Users All
+      tags:
+      - users
+      operationId: UsersAll
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /users/{id}:
+    get:
+      summary: Users
+      tags:
+      - users
+      operationId: Users
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /users:
+    post:
+      summary: Users
+      tags:
+      - users
+      operationId: PostUsers
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/UsersRequest'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /accounts/all:
+    get:
+      summary: Get All
+      tags:
+      - accounts
+      operationId: GetAll
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /accounts/{id}:
+    get:
+      summary: Get
+      tags:
+      - accounts
+      operationId: Get
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /accounts/{id}:
+    put:
+      summary: Update Balance
+      tags:
+      - accounts
+      operationId: UpdateBalance
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/UpdateBalanceRequest'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /accounts/{id}/buystock:
+    put:
+      summary: Buy Stock
+      tags:
+      - accounts
+      operationId: BuyStock
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/BuyStockRequest'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /accounts/{id}/sellstock:
+    put:
+      summary: Sell Stock
+      tags:
+      - accounts
+      operationId: SellStock
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/SellStockRequest'
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /stocks/all:
+    get:
+      summary: Stocks All
+      tags:
+      - stocks
+      operationId: StocksAll
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+definitions:
+  UsersRequest:
+    title: UsersRequest
+    example:
+      name: Samuel
+      account:
+        balance: 0
+    type: object
+    properties:
+      name:
+        type: string
+      account:
+        $ref: '#/definitions/Account'
+    required:
+    - name
+    - account
+  Account:
+    title: Account
+    example:
+      balance: 0
+    type: object
+    properties:
+      balance:
+        type: integer
+        format: int32
+    required:
+    - balance
+  UpdateBalanceRequest:
+    title: UpdateBalanceRequest
+    example:
+      amount: -1
+    type: object
+    properties:
+      amount:
+        type: integer
+        format: int32
+    required:
+    - amount
+  BuyStockRequest:
+    title: BuyStockRequest
+    example:
+      stock: ITUB4
+    type: object
+    properties:
+      stock:
+        type: string
+    required:
+    - stock
+  SellStockRequest:
+    title: SellStockRequest
+    example:
+      stock: ITUB4
+    type: object
+    properties:
+      stock:
+        type: string
+    required:
+    - stock
+tags:
+- name: users
+- name: accounts
+- name: stocks

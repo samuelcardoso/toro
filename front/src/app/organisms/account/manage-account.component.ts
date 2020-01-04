@@ -23,6 +23,7 @@ export class ManageAccountComponent implements OnInit {
   account: Account;
   stocks: Stock[];
   accountForm: FormGroup;
+  displayedColumns: string[] = ['stock', 'actions'];
 
   ngOnInit() {
     this.accountApiService.getById(this.route.snapshot.params.id)

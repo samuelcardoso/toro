@@ -1,5 +1,5 @@
 <div class="col-md-6 user-container">
-  <h2 class="text-center">Add User</h2>
+  <h2 style="margin: auto">Add User</h2>
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="username">User Name:</label>
@@ -11,6 +11,6 @@
       <input type="number" formControlName="balance" placeholder="ex: 20" name="balance" class="form-control" id="balance">
     </div>
 
-    <button class="btn btn-success">Add</button>
+    <button mat-button>Add</button>
   </form>
 </div>

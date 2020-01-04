@@ -15,6 +15,7 @@ export class ListUserComponent implements OnInit {
     private userApiService: UserApiService) { }
 
   users: User[];
+  displayedColumns: string[] = ['name', 'balance', 'actions'];
 
   ngOnInit() {
     // if(!window.localStorage.getItem('token')) {
