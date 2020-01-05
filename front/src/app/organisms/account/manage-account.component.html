@@ -1,12 +1,12 @@
 <div class="col-md-6 user-container">
   <h2 style="margin: auto">Manage Account</h2>
 
-  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" ngNativeValidate>
     <label for="balance">Current balance:</label>
     <input matInput type="text" value="{{account ? account.balance : null}}" disabled id="balance">
     <br/>
     <label for="amount">Add/Remove amount:</label>
-    <input matInput type="number" formControlName="amount" placeholder="ex: -10" name="amount" class="form-control" id="amount">
+    <input matInput type="number" formControlName="amount" placeholder="ex: -10" name="amount" class="form-control" id="amount" required>
     <button mat-button>Update amount</button>
   </form>
 

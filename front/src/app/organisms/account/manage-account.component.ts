@@ -48,6 +48,7 @@ export class ManageAccountComponent implements OnInit {
     this.accountApiService.updateBalance(this.account, this.accountForm.controls.amount.value)
       .subscribe( data => {
         this.account.balance += this.accountForm.controls.amount.value;
+        this.accountForm.controls.amount.setValue(null);
       });
   }
 
