@@ -12,9 +12,6 @@ http://localhost:8081
 # Backend
 http://localhost:8082
 
-# Swagger
-...
-
 # Redis Commander
 http://localhost:8083/
 
