@@ -15,7 +15,7 @@
     <ng-container cdkColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td md-cell *cdkCellDef="let user" >
-        <button mat-button (click)="manageAccount(user)">Manage account</button>
+        <button mat-button (click)="manageAccount(user)" class="mat-button mat-button-base button-alert">Manage account</button>
       </td>
     </ng-container>
 
@@ -28,5 +28,5 @@
       [pageSizeOptions]="[5, 10, 25, 100]">
     </mat-paginator>
   </table>
-  <button mat-button (click)="addUser()">Add User</button>
+  <button mat-button (click)="addUser()" class="mat-button mat-button-base button-confirm">Add User</button>
 </div>

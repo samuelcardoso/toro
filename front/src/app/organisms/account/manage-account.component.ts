@@ -5,6 +5,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {AccountApiService} from "../../services/account-api.service";
 import { Account } from 'src/app/models/account.type';
 import { Stock } from 'src/app/models/stock.type';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-manage-account',
@@ -14,6 +15,7 @@ import { Stock } from 'src/app/models/stock.type';
 export class ManageAccountComponent implements OnInit {
 
   constructor(
+    private location: Location,
     private formBuilder: FormBuilder,
     private router: Router,
     private accountApiService: AccountApiService,
@@ -82,4 +84,8 @@ export class ManageAccountComponent implements OnInit {
     }
     return this.account.stocks.filter(o => o.name === stockName).length > 0;
   }
+
+  back(): void {
+    this.location.back();
+  };
 }

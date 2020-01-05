@@ -11,7 +11,8 @@ import {
   MatButton,
   MatButtonModule,
   MatFormFieldModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatInputModule
 } from '@angular/material';
 import { AppComponent } from './app.component';
 import { ListUserComponent } from './organisms/user/list-user/list-user.component';
@@ -46,6 +47,7 @@ import { CdkTableModule } from '@angular/cdk/table';
     MatButtonModule,
     CdkTableModule,
     MatFormFieldModule,
+    MatInputModule,
     MatPaginatorModule
   ],
   providers: [

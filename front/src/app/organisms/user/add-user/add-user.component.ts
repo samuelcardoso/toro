@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {UserApiService} from "../../../services/user-api.service";
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-user',
@@ -11,6 +12,7 @@ import {UserApiService} from "../../../services/user-api.service";
 export class AddUserComponent implements OnInit {
 
   constructor(
+    private location: Location,
     private formBuilder: FormBuilder,
     private router: Router,
     private userApiService: UserApiService) { }
@@ -38,4 +40,7 @@ export class AddUserComponent implements OnInit {
       });
   }
 
+  back(): void {
+    this.location.back();
+  };
 }
