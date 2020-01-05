@@ -1,7 +1,8 @@
-import { Component, OnInit , Inject} from '@angular/core';
+import { Component, OnInit , Inject, ViewChild} from '@angular/core';
 import { Router } from "@angular/router";
 import { User } from "../../../models/user.model";
 import { UserApiService } from "../../../services/user-api.service";
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-list-user',
@@ -14,18 +15,19 @@ export class ListUserComponent implements OnInit {
     private router: Router,
     private userApiService: UserApiService) { }
 
-  users: User[];
+  dataSource: any = new MatTableDataSource<User>();
   displayedColumns: string[] = ['name', 'balance', 'actions'];
 
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
+
   ngOnInit() {
-    // if(!window.localStorage.getItem('token')) {
-    //   this.router.navigate(['login']);
-    //   return;
-    // }
+    this.dataSource.paginator = this.paginator;
+
     this.userApiService.all()
       .subscribe( data => {
         console.log(data);
-        this.users = data;
+        this.dataSource.data = data;
       });
   }
 

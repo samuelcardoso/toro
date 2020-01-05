@@ -1,11 +1,12 @@
 import { StockApiService } from './../../services/stock-api.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router, ActivatedRoute} from "@angular/router";
 import {AccountApiService} from "../../services/account-api.service";
 import { Account } from 'src/app/models/account.type';
 import { Stock } from 'src/app/models/stock.type';
 import { Location } from '@angular/common';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-manage-account',
@@ -22,12 +23,17 @@ export class ManageAccountComponent implements OnInit {
     private stockApiService: StockApiService,
     private route: ActivatedRoute) { }
 
+  dataSource: any = new MatTableDataSource<Stock>();
   account: Account;
   stocks: Stock[];
   accountForm: FormGroup;
   displayedColumns: string[] = ['stock', 'actions'];
 
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
+
   ngOnInit() {
+    this.dataSource.paginator = this.paginator;
     this.accountApiService.getById(this.route.snapshot.params.id)
       .subscribe( data => {
         console.log(data);
@@ -38,6 +44,7 @@ export class ManageAccountComponent implements OnInit {
     .subscribe( data => {
       console.log(data);
       this.stocks = data;
+      this.dataSource.data = this.stocks;
     });
 
     this.accountForm = this.formBuilder.group({
@@ -50,7 +57,7 @@ export class ManageAccountComponent implements OnInit {
     this.accountApiService.updateBalance(this.account, this.accountForm.controls.amount.value)
       .subscribe( data => {
         this.account.balance += this.accountForm.controls.amount.value;
-        this.accountForm.controls.amount.setValue(null);
+        this.accountForm.controls.amount.setValue(0);
       });
   }
 
