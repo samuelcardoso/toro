@@ -51,9 +51,9 @@ services:
   sim-listener:
     container_name: toro-sim-listener
     image: node:10-alpine
-    working_dir: /usr/src/back
+    working_dir: /usr/src/back-sim
     volumes:
-      - ./back:/usr/src/back
+      - ./back:/usr/src/back-sim
     depends_on:
       - redis
       - sim
@@ -64,9 +64,9 @@ services:
   back:
     container_name: toro-backend
     image: node:10-alpine
-    working_dir: /usr/src/back
+    working_dir: /usr/src/back-app
     volumes:
-      - ./back:/usr/src/back
+      - ./back:/usr/src/back-app
     command: >
       sh -c "npm install && npm run-script start"
     depends_on:
